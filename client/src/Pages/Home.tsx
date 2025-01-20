@@ -68,7 +68,7 @@ const Home = () => {
               size="lg"
               variant="outline"
               onClick={() => window.location.href = "/log-in"}
-              className="w-full sm:w-auto text-lg h-12 border-2 hover:bg-background/50 hover:text-destructive transition-all duration-300 ease-in-out hover:border-destructive"
+              className="w-full text-gray-200 sm:w-auto text-lg h-12 border-2 hover:bg-background/50 hover:text-destructive transition-all duration-300 ease-in-out hover:border-destructive"
             >
               <LogIn className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
               Member Login

@@ -24,7 +24,7 @@ app.use(morgan('dev'));
 
 // Import imports
 
-
+import AuthRouter from "./route/auth.route"
 
 // Import imports
 
@@ -48,6 +48,7 @@ if(process.env.NODE_ENV === 'development'){
 
 // Routes Middleware
 
+app.use('/api/auth', AuthRouter);
 
 
 // Routes Middleware
