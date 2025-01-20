@@ -25,3 +25,5 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
         return ResponseApi(res, 500, 'Internal Server Error')
     }
 }
+
+export default authMiddleware;

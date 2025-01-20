@@ -1,4 +1,5 @@
-import express, { Router } from "express";
+import authMiddleware from "../middleware/auth.miiddleware"; 
+import { Router } from "express";
 const router = Router();
 
 import {
@@ -9,6 +10,6 @@ import {
 
 router.post('/register', register);
 router.post('/login', login);
-router.get('/currentUser', currentUser);
+router.get('/currentUser',authMiddleware ,currentUser);
 
 export default router;
