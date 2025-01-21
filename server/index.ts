@@ -24,6 +24,7 @@ app.use(morgan('dev'));
 
 // Import imports
 
+import InventoryRouter from "./route/inventory.route"
 import AuthRouter from "./route/auth.route"
 
 // Import imports
@@ -49,7 +50,7 @@ if(process.env.NODE_ENV === 'development'){
 // Routes Middleware
 
 app.use('/api/auth', AuthRouter);
-
+app.use('/api/inventory', InventoryRouter);
 
 // Routes Middleware
 
