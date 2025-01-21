@@ -6,30 +6,28 @@ import { Request, Response } from 'express';
 
 const createInventory = async (req: Request, res: Response) => {
     try {
-        const { _id, bloodGroup, quantity, inventoryType, email } = req.body;
+        // we already have user id because of auth middleware
+        const { user_email } = req.body;
 
-        // Check for missing required fields
-        if (!_id || !bloodGroup || !quantity || !inventoryType || !email) {
-            return ResponseApi(res, 400, 'Missing required fields');
+        const userExist = await User.findOne(
+            { email: user_email }, 
+        )
+
+        if(!userExist){
+            return ResponseApi(res, 400, 'User not found');
         }
 
-        const user = await User.findOne({ email });
-        if (!user) {
-            return ResponseApi(res, 404, 'User not found');
-        }
-
-        if (inventoryType === "out") {
-            const reqBloodGroup = bloodGroup;
-            const reqQuantity = quantity;
-            const org = new mongoose.Types.ObjectId(_id);
-
-            // Calculate total available blood
-            const totalIn = await Inventory.aggregate([
+        if(req.body.inventoryType === "out"){
+            const reqBlood = req.body.bloodGroup;
+            const reqQuantity = req.body.quantity;
+            const org = new mongoose.Types.ObjectId(req.body.userId);
+            
+            const totalInBlood = await Inventory.aggregate([
                 {
                     $match: {
                         organization: org,
                         inventoryType: "in",
-                        bloodGroup: reqBloodGroup,
+                        bloodGroup: reqBlood,
                     },
                 },
                 {
@@ -39,14 +37,15 @@ const createInventory = async (req: Request, res: Response) => {
                     },
                 },
             ]);
-            const InBlood = totalIn[0]?.total || 0;
 
-            const totalOut = await Inventory.aggregate([
+            const totalIn = totalInBlood.length > 0 ? totalInBlood[0].total : 0;
+
+            const totalOutBlood = await Inventory.aggregate([
                 {
                     $match: {
                         organization: org,
                         inventoryType: "out",
-                        bloodGroup: reqBloodGroup,
+                        bloodGroup: reqBlood,
                     },
                 },
                 {
@@ -56,24 +55,23 @@ const createInventory = async (req: Request, res: Response) => {
                     },
                 },
             ]);
-            const OutBlood = totalOut[0]?.total || 0;
 
-            const available = InBlood - OutBlood;
+            const totalOut = totalOutBlood.length > 0 ? totalOutBlood[0].total : 0;
 
-            // Check if sufficient blood is available
-            if (available < reqQuantity) {
-                return ResponseApi(res, 400, 'Insufficient blood');
+            const availableBlood = totalIn - totalOut;
+            if(availableBlood < reqQuantity){
+                return ResponseApi(res, 400, 'Not enough blood available');
             }
 
-            req.body.organization = user._id;
-        } else {
-            req.body.donar = user._id;
+            req.body.hospital = userExist?._id;
+        }else{
+            req.body.donar = userExist?._id;
         }
 
         const inventory = new Inventory(req.body);
         await inventory.save();
 
-        return ResponseApi(res, 201, 'Inventory created successfully', inventory);
+        return ResponseApi(res, 200, 'Inventory created successfully', inventory);
     } catch (error) {
         console.error('Error in createInventory:', error);
         return ResponseApi(res, 500, 'Internal server error', error);
@@ -82,15 +80,9 @@ const createInventory = async (req: Request, res: Response) => {
 
 const getInventory = async (req: Request, res: Response) => {
     try {
-        const { _id } = req.body;
-        if (!_id) {
-            return ResponseApi(res, 400, 'Missing required field: _id');
-        }
-
-        const inventory = await Inventory.find({ organization: _id })
-            .populate("donar")
-            .populate("hospital")
-            .sort({ createdAt: -1 });
+        const inventory = await Inventory.find(
+            { organisation: req.body.userId }
+        ).populate("donar").populate("hospital").sort({createdAt: -1})
 
         return ResponseApi(res, 200, 'Inventory fetched successfully', inventory);
     } catch (error) {
@@ -99,14 +91,9 @@ const getInventory = async (req: Request, res: Response) => {
     }
 };
 
-const getInventoryByFilter = async (req: Request, res: Response) => {
+const getInventoryByHospital = async (req: Request, res: Response) => {
     try {
-        const { filter } = req.body;
-        if (!filter || typeof filter !== 'object') {
-            return ResponseApi(res, 400, 'Invalid filter');
-        }
-
-        const inventory = await Inventory.find(filter)
+        const inventory = await Inventory.find(req.body.filters)
             .populate("donar")
             .populate("hospital")
             .populate("organization")
@@ -121,12 +108,7 @@ const getInventoryByFilter = async (req: Request, res: Response) => {
 
 const getRecentInventory = async (req: Request, res: Response) => {
     try {
-        const { _id } = req.body;
-        if (!_id) {
-            return ResponseApi(res, 400, 'Missing required field: _id');
-        }
-
-        const inventory = await Inventory.find({ organization: _id })
+        const inventory = await Inventory.find({ organization: req.body.userId })
             .limit(5)
             .sort({ createdAt: -1 });
 
@@ -137,14 +119,14 @@ const getRecentInventory = async (req: Request, res: Response) => {
     }
 };
 
-const getDonorController = async (req: Request, res: Response) => {
+const getDonor = async (req: Request, res: Response) => {
     try {
-        const { _id } = req.body;
-        if (!_id) {
-            return ResponseApi(res, 400, 'Missing required field: _id');
+        const { userId } = req.body;
+        if (!userId) {
+            return ResponseApi(res, 400, 'Missing required field: UserId');
         }
 
-        const donorIds = await Inventory.distinct("donar", { organization: _id });
+        const donorIds = await Inventory.distinct("donar", { organization: userId });
         const donors = await User.find({ _id: { $in: donorIds } });
 
         return ResponseApi(res, 200, 'Donors fetched successfully', donors);
@@ -154,14 +136,11 @@ const getDonorController = async (req: Request, res: Response) => {
     }
 };
 
-const getHospitalController = async (req: Request, res: Response) => {
+const getHospital = async (req: Request, res: Response) => {
     try {
-        const { _id } = req.body;
-        if (!_id) {
-            return ResponseApi(res, 400, 'Missing required field: _id');
-        }
+        const organisation = req.body.userId;
 
-        const hospitalIds = await Inventory.distinct("hospital", { organization: _id });
+        const hospitalIds = await Inventory.distinct("hospital", { organisation });
         const hospitals = await User.find({ _id: { $in: hospitalIds } });
 
         return ResponseApi(res, 200, 'Hospitals fetched successfully', hospitals);
@@ -171,14 +150,11 @@ const getHospitalController = async (req: Request, res: Response) => {
     }
 };
 
-const getOrganizationController = async (req: Request, res: Response) => {
+const getOrganization = async (req: Request, res: Response) => {
     try {
-        const { _id } = req.body;
-        if (!_id) {
-            return ResponseApi(res, 400, 'Missing required field: _id');
-        }
+        const donar = req.body.userId;
 
-        const organizationIds = await Inventory.distinct("organization", { donar: _id });
+        const organizationIds = await Inventory.distinct("organization", { donar });
         const organizations = await User.find({ _id: { $in: organizationIds } });
 
         return ResponseApi(res, 200, 'Organizations fetched successfully', organizations);
@@ -190,12 +166,9 @@ const getOrganizationController = async (req: Request, res: Response) => {
 
 const getOrganizationForHospitalController = async (req: Request, res: Response) => {
     try {
-        const { _id } = req.body;
-        if (!_id) {
-            return ResponseApi(res, 400, 'Missing required field: _id');
-        }
+        const hospital = req.body.userId;
 
-        const orgIds = await Inventory.distinct("organization", { hospital: _id });
+        const orgIds = await Inventory.distinct("organization", { hospital });
         const organizations = await User.find({ _id: { $in: orgIds } });
 
         return ResponseApi(res, 200, 'Organizations fetched successfully', organizations);
@@ -205,13 +178,14 @@ const getOrganizationForHospitalController = async (req: Request, res: Response)
     }
 };
 
+
 export {
-    createInventory,
+    getDonor,
+    getHospital,
     getInventory,
-    getInventoryByFilter,
+    createInventory,
+    getOrganization,
     getRecentInventory,
-    getDonorController,
-    getHospitalController,
-    getOrganizationController,
-    getOrganizationForHospitalController,
+    getInventoryByHospital,
+    getOrganizationForHospitalController
 };
