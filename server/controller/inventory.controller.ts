@@ -63,7 +63,7 @@ const createInventory = async (req: Request, res: Response) => {
 
       req.body.hospital = userExist?._id;
     } else {
-      req.body.donar = userExist?._id;
+      req.body.donor = userExist?._id;
     }
 
     const inventory = new Inventory(req.body);
@@ -79,7 +79,7 @@ const createInventory = async (req: Request, res: Response) => {
 const getInventory = async (req: Request, res: Response) => {
   try {
     const inventory = await Inventory.find({ organisation: req.body.userId })
-      .populate('donar')
+      .populate('donor')
       .populate('hospital')
       .sort({ createdAt: -1 });
 
@@ -93,7 +93,7 @@ const getInventory = async (req: Request, res: Response) => {
 const getInventoryByHospital = async (req: Request, res: Response) => {
   try {
     const inventory = await Inventory.find(req.body.filters)
-      .populate('donar')
+      .populate('donor')
       .populate('hospital')
       .populate('organization')
       .sort({ createdAt: -1 });
@@ -125,7 +125,7 @@ const getDonor = async (req: Request, res: Response) => {
       return ResponseApi(res, 400, 'Missing required field: UserId');
     }
 
-    const donorIds = await Inventory.distinct('donar', {
+    const donorIds = await Inventory.distinct('donor', {
       organization: userId,
     });
     const donors = await User.find({ _id: { $in: donorIds } });
@@ -153,9 +153,9 @@ const getHospital = async (req: Request, res: Response) => {
 
 const getOrganization = async (req: Request, res: Response) => {
   try {
-    const donar = req.body.userId;
+    const donor = req.body.userId;
 
-    const organizationIds = await Inventory.distinct('organization', { donar });
+    const organizationIds = await Inventory.distinct('organization', { donor });
     const organizations = await User.find({ _id: { $in: organizationIds } });
 
     return ResponseApi(

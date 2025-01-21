@@ -1,6 +1,6 @@
 import { model, Schema, Document } from 'mongoose';
 
-const ROLE = ['admin', 'donar', 'hospital', 'organisation'] as const;
+const ROLE = ['admin', 'donor', 'hospital', 'organisation'] as const;
 
 interface IUser extends Document {
   role: (typeof ROLE)[number];
@@ -25,7 +25,7 @@ const userSchema = new Schema<IUser>(
     name: {
       type: String,
       required: function (this: IUser) {
-        return this.role === 'admin' || this.role === 'donar';
+        return this.role === 'admin' || this.role === 'donor';
       },
     },
     organisationName: {

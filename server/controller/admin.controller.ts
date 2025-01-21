@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import ResponseApi from '../utils/apiResponse.util';
 import User from '../models/user.model';
 
-const getAllDonar = async (req: Request, res: Response) => {
+const getAlldonor = async (req: Request, res: Response) => {
   try {
     const donorData = await User.find({ role: 'donor' }).sort({
       createdAt: -1,
@@ -50,4 +50,4 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllDonar, getAllHospital, getAllOrganistaion, deleteUser };
+export { getAlldonor, getAllHospital, getAllOrganistaion, deleteUser };

@@ -9,7 +9,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Toaster
-        position="top-right"
+        position="top-left"
         reverseOrder={true}
         toastOptions={{ duration: 5000 }}
       />
