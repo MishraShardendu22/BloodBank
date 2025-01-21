@@ -7,9 +7,10 @@ interface MetaDataProps {
 }
 
 const DEFAULT_META = {
-  title: "Donate Blood Save Life | Our Blood Bank",
-  description: "Welcome to Our Blood Bank, a website that manages and provides information about blood donors, hospitals, etc. Donate blood, save life.",
-  keywords: "react, node, express, mongodb, our blood bank",
+  title: 'Donate Blood Save Life | Our Blood Bank',
+  description:
+    'Welcome to Our Blood Bank, a website that manages and provides information about blood donors, hospitals, etc. Donate blood, save life.',
+  keywords: 'react, node, express, mongodb, our blood bank',
 };
 
 const MetaData = ({

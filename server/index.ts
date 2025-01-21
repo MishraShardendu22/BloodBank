@@ -13,7 +13,7 @@ const CorsOption = {
   origin: process.env.CLIENT_URI,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-}
+};
 app.use(cors(CorsOption));
 
 const port = process.env.PORT || 5000;
@@ -24,10 +24,10 @@ app.use(morgan('dev'));
 
 // Import imports
 
-import InventoryRouter from "./route/inventory.route";
-import AnalyticsRouter from "./route/analytics.route";
-import AdminRouter from "./route/admin.route";
-import AuthRouter from "./route/auth.route";
+import InventoryRouter from './route/inventory.route';
+import AnalyticsRouter from './route/analytics.route';
+import AdminRouter from './route/admin.route';
+import AuthRouter from './route/auth.route';
 
 // Import imports
 
@@ -37,7 +37,7 @@ import AuthRouter from "./route/auth.route";
 
 // import TestRouter from './route/test.route';
 
-if(process.env.NODE_ENV === 'development'){
+if (process.env.NODE_ENV === 'development') {
   app.get('/', (req: Request, res: Response) => {
     res.send('Hello, TypeScript Backend!');
   });
