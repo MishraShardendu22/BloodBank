@@ -3,6 +3,7 @@ import { Heart, UserPlus, LogIn, Droplets, Users, Calendar, ArrowRight, CheckCir
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import MetaData from '@/util/MetaData';
 
 const Home = () => {
   const containerVariants = {
@@ -25,7 +26,11 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
+      <MetaData 
+        title="Why Donate Blood? | Our Blood Bank"
+        description="Discover why donating blood is vital and how it saves lives."
+        keywords="donate blood, save lives, blood donation, Our Blood Bank"
+      />
       <motion.header 
         className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-b from-destructive/5 via-destructive/10 to-background"
         initial="hidden"
@@ -68,7 +73,7 @@ const Home = () => {
               size="lg"
               variant="outline"
               onClick={() => window.location.href = "/log-in"}
-              className="w-full text-gray-200 sm:w-auto text-lg h-12 border-2 hover:bg-background/50 hover:text-destructive transition-all duration-300 ease-in-out hover:border-destructive"
+              className="w-full text-gray-500 sm:w-auto text-lg h-12 border-2 hover:bg-background/50 hover:text-destructive transition-all duration-300 ease-in-out hover:border-destructive"
             >
               <LogIn className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
               Member Login
