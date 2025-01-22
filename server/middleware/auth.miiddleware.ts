@@ -19,7 +19,6 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
         return ResponseApi(res, 403, 'Forbidden');
       }
     });
-    res.status(200);
     next();
   } catch (error) {
     console.log(error);
