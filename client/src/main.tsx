@@ -6,10 +6,14 @@ import App from './App.tsx';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-      <BrowserRouter>
-        <Toaster position="top-left" reverseOrder={true} toastOptions={{ duration: 5000 }} />
-        <App />
-      </BrowserRouter>
-    </StrictMode>
+  <StrictMode>
+    <BrowserRouter>
+      <Toaster
+        position="top-left"
+        reverseOrder={true}
+        toastOptions={{ duration: 5000 }}
+      />
+      <App />
+    </BrowserRouter>
+  </StrictMode>
 );

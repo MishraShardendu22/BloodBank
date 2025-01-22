@@ -138,7 +138,9 @@ const Register = () => {
   };
 
   return (
-    <div className={`flex min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`} >
+    <div
+      className={`flex min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}
+    >
       <MetaData title="Register To Our Blood Bank ❣️" />
       <div className="hidden lg:block w-1/2 relative">
         <img

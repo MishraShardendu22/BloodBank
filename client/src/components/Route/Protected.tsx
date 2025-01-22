@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
-import axiosInstance from "@/util/axiosInstance";
-import MedicalLoader from "../Loader";
+import { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import axiosInstance from '@/util/axiosInstance';
+import MedicalLoader from '../Loader';
 
-const Protected = ({ children } : any) => {
+const Protected = ({ children }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkAuthentication = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       if (!token) {
         setIsAuthenticated(false);
         return;
       }
 
       try {
-        const response = await axiosInstance.post("/auth/verify",{
+        const response = await axiosInstance.post('/auth/verify', {
           token: token,
         });
         if (response.status === 200) {

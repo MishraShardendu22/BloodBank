@@ -5,17 +5,57 @@ import Register from './Pages/Auth/Register';
 import Login from './Pages/Auth/Login';
 import Home from './Pages/Home';
 import Protected from './components/Route/Protected';
-import UnProtected from "./components/Route/Unprotected"
+import UnProtected from './components/Route/Unprotected';
 
 const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/home" element={ <Protected> <Home /> </Protected> }/>
-        <Route path="/" element={ <UnProtected> <Landing /> </UnProtected> } /> 
-        <Route path="/login" element={<UnProtected> <Login /> </UnProtected>} />
-        <Route path="/register" element={ <UnProtected> <Register /> </UnProtected> } />
-        <Route path="*" element={ <UnProtected> <NotFound /> </UnProtected> } />
+        <Route
+          path="/home"
+          element={
+            <Protected>
+              {' '}
+              <Home />{' '}
+            </Protected>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <UnProtected>
+              {' '}
+              <Landing />{' '}
+            </UnProtected>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <UnProtected>
+              {' '}
+              <Login />{' '}
+            </UnProtected>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <UnProtected>
+              {' '}
+              <Register />{' '}
+            </UnProtected>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <UnProtected>
+              {' '}
+              <NotFound />{' '}
+            </UnProtected>
+          }
+        />
       </Routes>
     </div>
   );

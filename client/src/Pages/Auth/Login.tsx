@@ -11,7 +11,7 @@ import MetaData from '@/util/MetaData';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); 
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(false);
 
