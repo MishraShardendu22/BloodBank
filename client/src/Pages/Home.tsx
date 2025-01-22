@@ -1,5 +1,12 @@
+import LogOut from '@/components/LogOut';
+
 const Home = () => {
-  return <div>Hi</div>;
+  return (
+    <div>
+      <LogOut />
+      Hi
+    </div>
+  );
 };
 
 export default Home;
