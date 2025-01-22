@@ -76,4 +76,28 @@ const currentUser = async (req: Request, res: Response) => {
   }
 };
 
-export { register, login, currentUser };
+const jwt_confirm = async (req: Request, res: Response) => {
+  try{
+    const  { token }  = req.body;
+    if(!token){
+      return ResponseApi(res, 401, 'Unauthorized');
+    }
+
+    let user1;
+    jwt.verify(token, process.env.JWT_SECRET_KEY!, (error: any, user: any) => {
+      if(error){
+        return ResponseApi(res, 403, 'Forbidden');
+      }
+      if(!user){
+        return ResponseApi(res, 403, 'Forbidden');
+      }
+      user1 = user;
+    });
+    return ResponseApi(res, 200, 'Valid Token', user1);
+  }catch(error){
+    console.log(error);
+    return ResponseApi(res, 500, 'Internal Server Error', error);
+  }
+}
+
+export { register, login, currentUser, jwt_confirm };
