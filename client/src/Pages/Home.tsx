@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setUser } from "../Redux/Slice/user.slice";
@@ -25,7 +26,6 @@ const Home = () => {
         const userData = response?.data?.data;
 
         if (userData) {
-          // console.log("Fetched User Data:", userData);
           dispatch(setUser(userData));
         } else {
           console.error("No user data in API response");
@@ -37,6 +37,8 @@ const Home = () => {
 
     fetchUser();
   }, [dispatch]);
+
+
 
   return <div>Hi Bro</div>;
 };
