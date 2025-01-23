@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { useUserStore } from "@/store/store";
 import axiosInstance from "@/util/axiosInstance";
+import Navbar from "@/components/Navbar";
 
 const Home = () => {
   const token = localStorage.getItem("token");
@@ -43,7 +44,11 @@ const Home = () => {
     return <div>Loading user data...</div>; // Show loading until user data is fetched
   }
 
-  return <div>Hi Bro, welcome back {user.name}!</div>;
+  return (
+    <div>
+      <Navbar />
+    </div>
+  )
 };
 
 export default Home;
