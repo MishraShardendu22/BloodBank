@@ -6,6 +6,7 @@ import Login from './Pages/Auth/Login';
 import Home from './Pages/Home';
 import Protected from './components/Route/Protected';
 import UnProtected from './components/Route/Unprotected';
+import Account from './Pages/Auth/Account';
 
 const App = () => {
   return (
@@ -17,6 +18,15 @@ const App = () => {
             <Protected>
               {' '}
               <Home />{' '}
+            </Protected>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <Protected>
+              {' '}
+              <Account />{' '}
             </Protected>
           }
         />
