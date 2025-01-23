@@ -1,9 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from 'react'
-import { useUserStore } from "@/store/store"
-import LogOut from "./LogOut"
-import { Home, User, Menu, X } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState } from "react";
+import { useUserStore } from "@/store/store";
+import LogOut from "./LogOut";
+import { Home, User, Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+import { 
+  DropdownMenu, 
+  DropdownMenuTrigger, 
+  DropdownMenuContent, 
+  DropdownMenuItem 
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const user = useUserStore((state: any) => state.user);
@@ -12,11 +19,10 @@ const Navbar = () => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
-    <nav className="bg-white dark:bg-card shadow-sm border-b border-border/30 dark:border-border/10 sticky top-0 z-40 transition-colors duration-300">
+    <nav className="bg-white dark:bg-card shadow-sm border-b border-border/30 dark:border-border/10 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo Section */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -26,40 +32,47 @@ const Navbar = () => {
               Blood Bank
             </div>
           </motion.div>
-          
-          {/* Desktop Navigation - Centered */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:flex items-center space-x-6">
-            {/* Home Link */}
-            <motion.a 
-              href="/"  
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+
+          <div className="hidden md:flex items-center space-x-6 absolute left-1/2 transform -translate-x-1/2">
+            <Link
+              to="/"
               className="text-muted-foreground dark:text-card-foreground/70 hover:text-primary flex items-center space-x-2 transition-colors group"
             >
               <Home size={20} className="group-hover:text-primary" />
               <span>Home</span>
-            </motion.a>
+            </Link>
           </div>
 
-          {/* User Section - Right Aligned */}
           <div className="flex items-center space-x-3">
-            <div className="hidden md:flex items-center space-x-2 bg-secondary/50 dark:bg-secondary/20 px-3 py-1 rounded-full">
-              <User 
-                size={16} 
-                className="text-muted-foreground dark:text-card-foreground/70"
-              />
-              <span className="text-sm text-muted-foreground dark:text-card-foreground/70">
-                {user.name}
-              </span>
-            </div>
-            
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <div className="hidden md:flex items-center space-x-2 bg-secondary/50 dark:bg-secondary/20 px-3 py-1 rounded-full">
+                  <User size={16} className="text-muted-foreground dark:text-card-foreground/70" />
+                  <span className="text-sm text-muted-foreground dark:text-card-foreground/70">
+                    {user.name}
+                  </span>
+                </div>
+                <User size={16} className="md:hidden text-muted-foreground dark:text-card-foreground/70" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="bottom" align="center" className="bg-white dark:bg-card shadow-lg rounded-md">
+                <DropdownMenuItem asChild>
+                  <Link
+                    to="/account"
+                    className="text-muted-foreground dark:text-card-foreground/70 hover:text-primary flex items-center space-x-2"
+                  >
+                    <User size={16} className="text-muted-foreground dark:text-card-foreground/70" />
+                    <span>View Account</span>
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <div className="hidden md:block">
-              <LogOut/>
+              <LogOut />
             </div>
 
-            {/* Mobile Menu Toggle */}
             <div className="md:hidden">
-              <button 
+              <button
                 onClick={toggleMobileMenu}
                 className="text-muted-foreground dark:text-card-foreground/70 hover:text-primary"
               >
@@ -70,38 +83,31 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden bg-white dark:bg-card border-t border-border/30 dark:border-border/10"
           >
             <div className="px-4 pt-2 pb-4 space-y-3">
-              {/* Mobile Home Link */}
-              <motion.a 
-                href="/"
+              <Link
+                to="/"
                 className="flex items-center space-x-2 text-muted-foreground dark:text-card-foreground/70 hover:text-primary"
-                whileTap={{ scale: 0.95 }}
               >
                 <Home size={20} />
                 <span>Home</span>
-              </motion.a>
+              </Link>
 
-              {/* Mobile User Info */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <User 
-                    size={16} 
-                    className="text-muted-foreground dark:text-card-foreground/70"
-                  />
-                  <span className="text-sm text-muted-foreground dark:text-card-foreground/70">
+                  <User size={16} className="text-muted-foreground dark:text-card-foreground/70" />
+                  <Link to="/account" className="text-sm text-muted-foreground dark:text-card-foreground/70">
                     {user.name}
-                  </span>
+                  </Link>
                 </div>
-                
+
                 <LogOut />
               </div>
             </div>
@@ -109,7 +115,7 @@ const Navbar = () => {
         )}
       </AnimatePresence>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

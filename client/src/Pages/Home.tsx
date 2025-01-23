@@ -2,7 +2,8 @@
 import { useEffect } from "react";
 import { useUserStore } from "@/store/store";
 import axiosInstance from "@/util/axiosInstance";
-import Navbar from "@/components/Navbar";
+import MedicalLoader from "@/components/Loader";
+import Layout from "./Layout";
 
 const Home = () => {
   const token = localStorage.getItem("token");
@@ -26,7 +27,7 @@ const Home = () => {
         const userData = response?.data?.data;
 
         if (userData) {
-          setUser(userData); // Store user in Zustand
+          setUser(userData);
         } else {
           console.error("No user data in API response");
         }
@@ -41,13 +42,15 @@ const Home = () => {
   }, [token, setUser, user]);
 
   if (!user) {
-    return <div>Loading user data...</div>; // Show loading until user data is fetched
+    return <MedicalLoader />
   }
 
   return (
-    <div>
-      <Navbar />
-    </div>
+    <Layout>
+      <div>
+        Hi
+      </div>
+    </Layout>
   )
 };
 
