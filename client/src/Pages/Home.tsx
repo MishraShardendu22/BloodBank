@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from "react";
-import { useUserStore } from "@/store/store";
+import Organisation from "@/components/NavLinks/Organisation";
+import Hospital from "@/components/NavLinks/Hospital";
 import axiosInstance from "@/util/axiosInstance";
+import Donor from "@/components/NavLinks/Donor";
 import MedicalLoader from "@/components/Loader";
+import { useUserStore } from "@/store/store";
+import Sidebar from "@/components/Header";
+import { useEffect } from "react";
 import Layout from "./Layout";
-
 const Home = () => {
   const token = localStorage.getItem("token");
   const setUser = useUserStore((state: any) => state.setUser);
@@ -37,7 +40,7 @@ const Home = () => {
     };
 
     if (!user) {
-      fetchUser(); // Fetch user data only if not already set
+      fetchUser();
     }
   }, [token, setUser, user]);
 
@@ -48,7 +51,12 @@ const Home = () => {
   return (
     <Layout>
       <div>
-        Hi
+        <Sidebar />
+        <div>
+          <Donor />
+          <Hospital />
+          <Organisation />
+        </div>
       </div>
     </Layout>
   )
