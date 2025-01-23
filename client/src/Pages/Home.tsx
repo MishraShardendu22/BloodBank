@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { setUser } from "../Redux/Slice/user.slice";
+import { useUserStore } from "@/store/store";
 import axiosInstance from "@/util/axiosInstance";
 
 const Home = () => {
-  const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
+  const setUser = useUserStore((state: any) => state.setUser);
+  const user = useUserStore((state: any) => state.user);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("token");
-
       if (!token) {
         console.error("No token found in localStorage");
         return;
@@ -19,14 +18,14 @@ const Home = () => {
       try {
         const response = await axiosInstance.get("/auth/currentUser", {
           headers: {
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
         const userData = response?.data?.data;
 
         if (userData) {
-          dispatch(setUser(userData));
+          setUser(userData); // Store user in Zustand
         } else {
           console.error("No user data in API response");
         }
@@ -35,12 +34,16 @@ const Home = () => {
       }
     };
 
-    fetchUser();
-  }, [dispatch]);
+    if (!user) {
+      fetchUser(); // Fetch user data only if not already set
+    }
+  }, [token, setUser, user]);
 
+  if (!user) {
+    return <div>Loading user data...</div>; // Show loading until user data is fetched
+  }
 
-
-  return <div>Hi Bro</div>;
+  return <div>Hi Bro, welcome back {user.name}!</div>;
 };
 
 export default Home;

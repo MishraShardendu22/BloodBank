@@ -6,7 +6,7 @@ import Login from './Pages/Auth/Login';
 import Home from './Pages/Home';
 import Protected from './components/Route/Protected';
 import UnProtected from './components/Route/Unprotected';
-import Account from './Pages/Account';
+import Account from './Pages/Auth/Account';
 
 const App = () => {
   return (
