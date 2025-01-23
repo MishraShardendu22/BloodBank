@@ -1,32 +1,35 @@
-// import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-// const initialState = {
-//     user: {
-//         _id: "", 
-//         role: "", 
-//         name: "",
-//         email: "", 
-//         phone: "",
-//         website: "",
-//         address: "",
-//         password: "", 
-//         createdAt: "", 
-//         updatedAt: "",
-//         hospitalName: "",
-//         organisationName: "",
-//     }
-// };
+const initialState = {
+  user: {
+    _id: "",
+    role: "",
+    name: "",
+    email: "",
+    phone: "",
+    website: "",
+    address: "",
+    password: "",
+    createdAt: "",
+    updatedAt: "",
+    hospitalName: "",
+    organisationName: "",
+  },
+};
 
-// const userSlice = createSlice({
-//   name: 'user',
-//   initialState,
-//   reducers: {
-//     setUser: (state, action) => {
-//         console.log("Updated state:", state.user);
-//         state.user = { ...state.user, ...action.payload };
-//     }
-//   }
-// });
+const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    setUser: (state, action) => {
+      console.log("Previous State:", state.user);
+      console.log("Payload:", action.payload);
 
-// export const { setUser } = userSlice.actions;
-// export default userSlice.reducer;
+      state.user = { ...state.user, ...action.payload };
+      console.log("Updated State:", state.user);
+    },
+  },
+});
+
+export const { setUser } = userSlice.actions;
+export default userSlice.reducer;

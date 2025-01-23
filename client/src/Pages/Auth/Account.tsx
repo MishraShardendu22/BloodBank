@@ -1,17 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const Account = () => {
-  const user = useSelector((state: any) => state.user.user);
+  const user = useSelector((state: any) => {
+    console.log("State:", state);
+    return state.user;
+  });
 
-  useEffect(() => {
-    console.log('User data in Account component:', user); // Log the user data
-  }, [user]);
+  console.log("User Data:", user);
 
   return (
     <div>
-      Hi {user?.name || 'Loading...'} {/* Show user name or a loading message */}
+      <h1>{user.name}</h1>
+      <p>{user.email}</p>
+      <p>Role: {user.role}</p>
+      <p>Address: {user.address}</p>
+      <p>Phone: {user.phone}</p>
     </div>
   );
 };
