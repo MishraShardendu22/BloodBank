@@ -64,10 +64,10 @@
 
       if (localStorage.getItem('theme') === 'light') {
         htmlElement.classList.remove('dark');
-        themeIcon.textContent = '🌞';
+        themeIcon.textContent = '☀️';
       } else {
         htmlElement.classList.add('dark');
-        themeIcon.textContent = '🌚';
+        themeIcon.textContent = '🌑';
       }
 
       // Add event listener to toggle button
@@ -78,11 +78,11 @@
         if (htmlElement.classList.contains('dark')) {
           htmlElement.classList.remove('dark');
           localStorage.setItem('theme', 'light');
-          themeIcon.textContent = '🌞';
+          themeIcon.textContent = '☀️';
         } else {
           htmlElement.classList.add('dark');
           localStorage.setItem('theme', 'dark');
-          themeIcon.textContent = '🌚';
+          themeIcon.textContent = '🌑';
         }
       });
     </script>
