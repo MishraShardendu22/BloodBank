@@ -1,13 +1,11 @@
-import Layout from "./_Layout"
+import Layout from './_Layout';
 
 const Organisation = () => {
   return (
     <Layout>
-      <p>
-        Donor
-      </p>
+      <p>Donor</p>
     </Layout>
-  )
-}
+  );
+};
 
-export default Organisation
+export default Organisation;

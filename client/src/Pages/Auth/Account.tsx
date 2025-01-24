@@ -1,8 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { User, Building2, Hospital, MapPin, Calendar, Phone, MailCheck } from 'lucide-react';
+import {
+  User,
+  Building2,
+  Hospital,
+  MapPin,
+  Calendar,
+  Phone,
+  MailCheck,
+} from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { useUserStore } from "../../store/store";
+import { useUserStore } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
@@ -17,7 +25,7 @@ const Account = () => {
         return user.website ? (
           <>
             <Separator className="my-2" />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3 }}
@@ -34,7 +42,7 @@ const Account = () => {
         return user.organisationName ? (
           <>
             <Separator className="my-2" />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3 }}
@@ -42,7 +50,8 @@ const Account = () => {
             >
               <Building2 className="h-6 w-6 text-blue-800" />
               <p className="text-sm">
-                <span className="font-semibold">Organisation:</span> {user.organisationName}
+                <span className="font-semibold">Organisation:</span>{' '}
+                {user.organisationName}
               </p>
             </motion.div>
           </>
@@ -51,7 +60,7 @@ const Account = () => {
         return user.hospitalName ? (
           <>
             <Separator className="my-2" />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3 }}
@@ -59,7 +68,8 @@ const Account = () => {
             >
               <Hospital className="h-6 w-6 text-blue-800" />
               <p className="text-sm">
-                <span className="font-semibold">Hospital:</span> {user.hospitalName}
+                <span className="font-semibold">Hospital:</span>{' '}
+                {user.hospitalName}
               </p>
             </motion.div>
           </>
@@ -71,46 +81,52 @@ const Account = () => {
 
   return (
     <>
-      <Navbar/>
-      <div className="flex items-center justify-center min-h-screen p-10"> {/* Increased padding here */}
+      <Navbar />
+      <div className="flex items-center justify-center min-h-screen p-10">
+        {' '}
+        {/* Increased padding here */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
           className="w-full"
         >
-          <Card className="bg-gradient-to-r from-slate-300 to-slate-300 max-w-6xl mx-auto shadow-2xl border-none"> {/* Increased max-width here */}
+          <Card className="bg-gradient-to-r from-slate-300 to-slate-300 max-w-6xl mx-auto shadow-2xl border-none">
+            {' '}
+            {/* Increased max-width here */}
             <CardHeader className="bg-gradient-to-r from-red-600 to-red-800 text-white rounded-t-xl p-6">
               <CardTitle className="flex items-center space-x-4">
                 <User className="h-10 w-10 animate-pulse" />
-                <span className="text-2xl font-bold tracking-wide">Account Details</span>
+                <span className="text-2xl font-bold tracking-wide">
+                  Account Details
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-8 space-y-8">
               <div className="grid md:grid-cols-2 gap-8">
-                {[ 
-                  { 
-                    icon: <User className="h-6 w-6 text-red-600" />, 
-                    label: "Name", 
-                    value: user.name 
+                {[
+                  {
+                    icon: <User className="h-6 w-6 text-red-600" />,
+                    label: 'Name',
+                    value: user.name,
                   },
-                  { 
-                    icon: <MailCheck className="h-6 w-6 text-blue-600" />, 
-                    label: "Email", 
-                    value: user.email 
-                  },                
-                  { 
+                  {
+                    icon: <MailCheck className="h-6 w-6 text-blue-600" />,
+                    label: 'Email',
+                    value: user.email,
+                  },
+                  {
                     icon: <Phone className="h-6 w-6 text-green-600" />,
-                    label: "Phone", 
-                    value: user.phone 
+                    label: 'Phone',
+                    value: user.phone,
                   },
-                  { 
-                    icon: <Calendar className="h-6 w-6 text-purple-600" />, 
-                    label: "User Since", 
-                    value: new Date(user.createdAt).toLocaleDateString() 
-                  }
+                  {
+                    icon: <Calendar className="h-6 w-6 text-purple-600" />,
+                    label: 'User Since',
+                    value: new Date(user.createdAt).toLocaleDateString(),
+                  },
                 ].map((item, index) => (
-                  <motion.div 
+                  <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -119,14 +135,18 @@ const Account = () => {
                   >
                     {item.icon}
                     <div className="flex flex-col">
-                      <p className="text-sm text-gray-500 uppercase tracking-wider">{item.label}</p>
-                      <p className="font-semibold text-gray-800 break-words">{item.value}</p>
+                      <p className="text-sm text-gray-500 uppercase tracking-wider">
+                        {item.label}
+                      </p>
+                      <p className="font-semibold text-gray-800 break-words">
+                        {item.value}
+                      </p>
                     </div>
                   </motion.div>
                 ))}
               </div>
 
-              <Separator /> 
+              <Separator />
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -137,8 +157,12 @@ const Account = () => {
                 <div className="flex items-center space-x-4">
                   <MapPin className="h-6 w-6 text-red-600" />
                   <div>
-                    <p className="text-sm text-gray-500 uppercase tracking-wider">Address</p>
-                    <p className="font-semibold text-gray-800 break-words">{user.address}</p>
+                    <p className="text-sm text-gray-500 uppercase tracking-wider">
+                      Address
+                    </p>
+                    <p className="font-semibold text-gray-800 break-words">
+                      {user.address}
+                    </p>
                   </div>
                 </div>
               </motion.div>

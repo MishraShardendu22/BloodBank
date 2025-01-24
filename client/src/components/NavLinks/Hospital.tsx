@@ -1,13 +1,11 @@
-import Layout from "./_Layout"
+import Layout from './_Layout';
 
 const Hospital = () => {
   return (
     <Layout>
-      <p>
-        Hospital
-      </p>
+      <p>Hospital</p>
     </Layout>
-  )
-}
+  );
+};
 
-export default Hospital
+export default Hospital;

@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
-import { useUserStore } from "@/store/store";
-import LogOut from "./LogOut";
-import { Home, User, Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
-import { 
-  DropdownMenu, 
-  DropdownMenuTrigger, 
-  DropdownMenuContent, 
-  DropdownMenuItem 
-} from "@/components/ui/dropdown-menu";
+import { useState } from 'react';
+import { useUserStore } from '@/store/store';
+import LogOut from './LogOut';
+import { Home, User, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
 
 const Navbar = () => {
   const user = useUserStore((state: any) => state.user);
@@ -47,20 +47,33 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <div className="hidden md:flex items-center space-x-2 bg-secondary/50 dark:bg-secondary/20 px-3 py-1 rounded-full">
-                  <User size={16} className="text-muted-foreground dark:text-card-foreground/70" />
+                  <User
+                    size={16}
+                    className="text-muted-foreground dark:text-card-foreground/70"
+                  />
                   <span className="text-sm text-muted-foreground dark:text-card-foreground/70">
                     {user.name}
                   </span>
                 </div>
-                <User size={16} className="md:hidden text-muted-foreground dark:text-card-foreground/70" />
+                <User
+                  size={16}
+                  className="md:hidden text-muted-foreground dark:text-card-foreground/70"
+                />
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="bottom" align="center" className="bg-white dark:bg-card shadow-lg rounded-md">
+              <DropdownMenuContent
+                side="bottom"
+                align="center"
+                className="bg-white dark:bg-card shadow-lg rounded-md"
+              >
                 <DropdownMenuItem asChild>
                   <Link
                     to="/account"
                     className="text-muted-foreground dark:text-card-foreground/70 hover:text-primary flex items-center space-x-2"
                   >
-                    <User size={16} className="text-muted-foreground dark:text-card-foreground/70" />
+                    <User
+                      size={16}
+                      className="text-muted-foreground dark:text-card-foreground/70"
+                    />
                     <span>View Account</span>
                   </Link>
                 </DropdownMenuItem>
@@ -87,7 +100,7 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
+            animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden bg-white dark:bg-card border-t border-border/30 dark:border-border/10"
           >
@@ -102,8 +115,14 @@ const Navbar = () => {
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <User size={16} className="text-muted-foreground dark:text-card-foreground/70" />
-                  <Link to="/account" className="text-sm text-muted-foreground dark:text-card-foreground/70">
+                  <User
+                    size={16}
+                    className="text-muted-foreground dark:text-card-foreground/70"
+                  />
+                  <Link
+                    to="/account"
+                    className="text-sm text-muted-foreground dark:text-card-foreground/70"
+                  >
                     {user.name}
                   </Link>
                 </div>

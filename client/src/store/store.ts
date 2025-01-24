@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export const useUserStore = create(
   persist(
@@ -8,6 +8,6 @@ export const useUserStore = create(
       user: null,
       setUser: (userData: any) => set({ user: userData }),
     }),
-    { name: "user-store" } // Save user data to localStorage
+    { name: 'user-store' } // Save user data to localStorage
   )
 );
