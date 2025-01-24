@@ -1,4 +1,4 @@
-import Sidebar from '@/components/Header';
+import Sidebar from '@/components/Nav2';
 import Navbar from '@/components/Navbar';
 import { ReactNode } from 'react';
 

@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Organisation from "@/components/NavLinks/Organisation";
-import Hospital from "@/components/NavLinks/Hospital";
 import axiosInstance from "@/util/axiosInstance";
-import Donor from "@/components/NavLinks/Donor";
 import MedicalLoader from "@/components/Loader";
 import { useUserStore } from "@/store/store";
-import Sidebar from "@/components/Header";
+import Navbar from "@/components/Navbar";
+import Nav2 from "@/components/Nav2";
 import { useEffect } from "react";
-import Layout from "./Layout";
+// import Layout from "./Layout";
 const Home = () => {
   const token = localStorage.getItem("token");
   const setUser = useUserStore((state: any) => state.setUser);
@@ -49,16 +47,13 @@ const Home = () => {
   }
 
   return (
-    <Layout>
-      <div>
-        <Sidebar />
-        <div>
-          <Donor />
-          <Hospital />
-          <Organisation />
-        </div>
-      </div>
-    </Layout>
+    <div className="flex flex-col h-screen">
+      <Navbar  />
+      <Nav2  />
+      <p>
+        Some Description About Our BLood Bank
+      </p>
+    </div>
   )
 };
 
