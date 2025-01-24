@@ -1,15 +1,12 @@
-import Navbar from "../Navbar"
-import Nav2 from "../Nav2"
+import Layout from "./_Layout"
 
 const Organisation = () => {
   return (
-    <div className="flex flex-col h-screen">
-      <Navbar  />
-      <Nav2  />
+    <Layout>
       <p>
-        Organisation
+        Donor
       </p>
-    </div>
+    </Layout>
   )
 }
 
