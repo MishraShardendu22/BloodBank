@@ -8,8 +8,8 @@ import Protected from './components/Route/Protected';
 import UnProtected from './components/Route/Unprotected';
 import Account from './Pages/Auth/Account';
 import Donor from './components/NavLinks/Donor';
-import Organisation from './components/NavLinks/Organisation';
 import Hospital from './components/NavLinks/Hospital';
+import Inventory from './components/NavLinks/Inventory';
 
 const App = () => {
   return (
@@ -22,8 +22,17 @@ const App = () => {
           </Protected>
         }
       />
-      <Route path="/organisation" element={<Organisation />} />
-      <Route path="/hospital" element={<Hospital />} />
+      <Route path="/organisation" element={
+        <Protected>
+          <Inventory />
+        </Protected>
+      
+      }/>
+      <Route path="/hospital" element={
+        <Protected>
+          <Hospital />
+        </Protected>
+      } />
       <Route
         path="/home"
         element={

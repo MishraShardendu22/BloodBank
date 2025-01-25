@@ -7,19 +7,23 @@ import { Request, Response } from 'express';
 const createInventory = async (req: Request, res: Response) => {
   try {
     // we already have user id because of auth middleware
-    const { user_email } = req.body;
+    const { email } = req.body;
+    console.log("CP-1")
 
-    const userExist = await User.findOne({ email: user_email });
+    const userExist = await User.findOne({ email: email });
 
+    console.log("CP-2")
     if (!userExist) {
       return ResponseApi(res, 400, 'User not found');
     }
 
+    console.log("CP-3")
     if (req.body.inventoryType === 'out') {
       const reqBlood = req.body.bloodGroup;
       const reqQuantity = req.body.quantity;
       const org = new mongoose.Types.ObjectId(req.body.userId);
 
+      console.log("CP-4")
       const totalInBlood = await Inventory.aggregate([
         {
           $match: {
@@ -38,6 +42,7 @@ const createInventory = async (req: Request, res: Response) => {
 
       const totalIn = totalInBlood.length > 0 ? totalInBlood[0].total : 0;
 
+      console.log("CP-5")
       const totalOutBlood = await Inventory.aggregate([
         {
           $match: {
@@ -55,20 +60,33 @@ const createInventory = async (req: Request, res: Response) => {
       ]);
 
       const totalOut = totalOutBlood.length > 0 ? totalOutBlood[0].total : 0;
-
+      
+      console.log("CP-6")
       const availableBlood = totalIn - totalOut;
       if (availableBlood < reqQuantity) {
         return ResponseApi(res, 400, 'Not enough blood available');
       }
 
+      console.log("CP-7")
       req.body.hospital = userExist?._id;
     } else {
-      req.body.donor = userExist?._id;
+      console.log("CP-3.5")
+      req.body.donor = userExist?._id; // This will be set for the 'in' inventory type
     }
 
-    const inventory = new Inventory(req.body);
+    console.log("CP-8")
+    const inventory = new Inventory({
+      organisation: req.body.organisation, // Ensure organisation is set
+      email: req.body.email,               // Ensure email is set
+      quantity: req.body.quantity,         // Ensure quantity is set
+      bloodGroup: req.body.bloodGroup,     // Ensure bloodGroup is set
+      inventoryType: req.body.inventoryType, // Ensure inventoryType is set
+      donor: req.body.donor,               // Ensure donor is set for 'in' type
+      hospital: req.body.hospital,         // Ensure hospital is set for 'out' type
+    });
     await inventory.save();
 
+    console.log("CP-9")
     return ResponseApi(res, 200, 'Inventory created successfully', inventory);
   } catch (error) {
     console.error('Error in createInventory:', error);
@@ -86,6 +104,25 @@ const getInventory = async (req: Request, res: Response) => {
     return ResponseApi(res, 200, 'Inventory fetched successfully', inventory);
   } catch (error) {
     console.error('Error in getInventory:', error);
+    return ResponseApi(res, 500, 'Internal server error', error);
+  }
+};
+
+const getOrganization = async (req: Request, res: Response) => {
+  try {
+    const donor = req.body.userId;
+
+    const organizationIds = await Inventory.distinct('organization', { donor });
+    const organizations = await User.find({ _id: { $in: organizationIds } });
+
+    return ResponseApi(
+      res,
+      200,
+      'Organizations fetched successfully',
+      organizations
+    );
+  } catch (error) {
+    console.error('Error in getOrganizationController:', error);
     return ResponseApi(res, 500, 'Internal server error', error);
   }
 };
@@ -147,25 +184,6 @@ const getHospital = async (req: Request, res: Response) => {
     return ResponseApi(res, 200, 'Hospitals fetched successfully', hospitals);
   } catch (error) {
     console.error('Error in getHospitalController:', error);
-    return ResponseApi(res, 500, 'Internal server error', error);
-  }
-};
-
-const getOrganization = async (req: Request, res: Response) => {
-  try {
-    const donor = req.body.userId;
-
-    const organizationIds = await Inventory.distinct('organization', { donor });
-    const organizations = await User.find({ _id: { $in: organizationIds } });
-
-    return ResponseApi(
-      res,
-      200,
-      'Organizations fetched successfully',
-      organizations
-    );
-  } catch (error) {
-    console.error('Error in getOrganizationController:', error);
     return ResponseApi(res, 500, 'Internal server error', error);
   }
 };

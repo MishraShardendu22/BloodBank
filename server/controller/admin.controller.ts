@@ -30,7 +30,7 @@ const getAllHospital = async (req: Request, res: Response) => {
 
 const getAllOrganistaion = async (req: Request, res: Response) => {
   try {
-    const orgData = await User.find({ role: 'org' }).sort({ createdAt: -1 });
+    const orgData = await User.find({ role: 'organisation' }).sort({ createdAt: -1 });
 
     return ResponseApi(res, 200, 'Successfully Fetched Data', orgData);
   } catch (error) {

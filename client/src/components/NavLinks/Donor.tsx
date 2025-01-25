@@ -3,7 +3,9 @@ import Layout from './_Layout';
 const Donor = () => {
   return (
     <Layout>
-      <p>Donor</p>
+      <p>
+        Donor
+      </p>
     </Layout>
   );
 };

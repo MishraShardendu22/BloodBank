@@ -3,7 +3,9 @@ import Layout from './_Layout';
 const Hospital = () => {
   return (
     <Layout>
-      <p>Hospital</p>
+      <p>
+        Hospital
+      </p>
     </Layout>
   );
 };
